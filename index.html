@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,45 +7,84 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --red: #e8001d;
-      --dark: #0d0d0d;
-      --card-bg: #141414;
-      --border: rgba(255,255,255,0.07);
-      --text: #f0f0f0;
-      --muted: #888;
+
+    /* ── Theme tokens ── */
+    [data-theme="dark"] {
+      --bg:       #0d0d0d;
+      --card-bg:  #141414;
+      --modal-bg: #1b1b1b;
+      --border:   rgba(255,255,255,0.07);
+      --border2:  rgba(255,255,255,0.1);
+      --text:     #f0f0f0;
+      --muted:    #888;
+      --input-bg: #111;
+      --tag-bg:   rgba(255,255,255,0.03);
+      --tag-bd:   rgba(255,255,255,0.1);
+      --overlay:  rgba(0,0,0,0.78);
+      --glow-r:   rgba(232,0,29,0.12);
+      --dot-fill: rgba(255,255,255,0.02);
+      --toggle-bg:#1e1e1e;
+      --toggle-bd:rgba(255,255,255,0.12);
+      --shadow:   0 20px 50px rgba(0,0,0,0.5);
+      --add-dash: rgba(255,255,255,0.1);
+      --add-plus: rgba(255,255,255,0.2);
+      --add-lbl:  rgba(255,255,255,0.22);
     }
+    [data-theme="light"] {
+      --bg:       #f4f4f4;
+      --card-bg:  #ffffff;
+      --modal-bg: #ffffff;
+      --border:   rgba(0,0,0,0.08);
+      --border2:  rgba(0,0,0,0.12);
+      --text:     #111111;
+      --muted:    #666;
+      --input-bg: #f8f8f8;
+      --tag-bg:   rgba(0,0,0,0.04);
+      --tag-bd:   rgba(0,0,0,0.1);
+      --overlay:  rgba(0,0,0,0.55);
+      --glow-r:   rgba(232,0,29,0.06);
+      --dot-fill: rgba(0,0,0,0.015);
+      --toggle-bg:#fff;
+      --toggle-bd:rgba(0,0,0,0.15);
+      --shadow:   0 12px 40px rgba(0,0,0,0.12);
+      --add-dash: rgba(0,0,0,0.15);
+      --add-plus: rgba(0,0,0,0.25);
+      --add-lbl:  rgba(0,0,0,0.3);
+    }
+
+    :root { --red: #e8001d; }
+
     body {
-      background: var(--dark);
+      background: var(--bg);
       color: var(--text);
       font-family: 'Barlow', sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
       padding: 40px 20px 80px;
       overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
     }
     body::before {
       content: '';
       position: fixed; inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232,0,29,0.12) 0%, transparent 70%),
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        radial-gradient(ellipse 80% 60% at 50% -10%, var(--glow-r) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23808080' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
       pointer-events: none; z-index: 0;
+      transition: background 0.3s;
     }
+
     .container { position: relative; z-index: 1; width: 100%; max-width: 860px; }
 
-    /* Header */
+    /* ── Header ── */
     header { text-align: center; margin-bottom: 48px; animation: fadeUp 0.5s ease both; }
+
     .logo-ring {
       display: inline-flex; align-items: center; justify-content: center;
       width: 72px; height: 72px; border-radius: 50%;
       border: 2px solid var(--red); margin-bottom: 20px; position: relative;
-      cursor: pointer;
-      transition: box-shadow 0.2s;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
+      cursor: pointer; transition: box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent; user-select: none;
     }
     .logo-ring::before {
       content: ''; position: absolute; inset: 6px;
@@ -53,8 +92,16 @@
     }
     .logo-ring span {
       font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
-      font-size: 22px; color: var(--red); letter-spacing: 1px; position: relative; z-index: 1;
+      font-size: 22px; color: var(--red); letter-spacing: 1px;
+      position: relative; z-index: 1;
     }
+    /* tap feedback */
+    .logo-ring.tap1 { box-shadow: 0 0 0 4px rgba(232,0,29,0.15); }
+    .logo-ring.tap2 { box-shadow: 0 0 0 4px rgba(232,0,29,0.30); }
+    .logo-ring.tap3 { box-shadow: 0 0 0 4px rgba(232,0,29,0.50); }
+    .logo-ring.tap4 { box-shadow: 0 0 0 4px rgba(232,0,29,0.75); }
+    .logo-ring.admin-active { box-shadow: 0 0 0 4px var(--red), 0 0 18px rgba(232,0,29,0.4); }
+
     h1 {
       font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
       font-size: clamp(2.4rem, 6vw, 3.8rem); letter-spacing: 0.04em;
@@ -64,16 +111,46 @@
     .subtitle { font-size: 0.9rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
     .divider { width: 60px; height: 2px; background: var(--red); margin: 18px auto; border-radius: 2px; }
 
-    /* Grid */
+    /* ── Theme toggle ── */
+    .theme-toggle {
+      position: fixed; top: 20px; right: 20px; z-index: 80;
+      background: var(--toggle-bg); border: 1px solid var(--toggle-bd);
+      border-radius: 50px; padding: 8px 14px;
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    .theme-toggle:hover { border-color: var(--red); }
+    .theme-toggle .track {
+      width: 34px; height: 18px; border-radius: 99px;
+      background: rgba(232,0,29,0.2); border: 1px solid rgba(232,0,29,0.3);
+      position: relative; transition: background 0.25s;
+    }
+    [data-theme="dark"] .theme-toggle .track { background: rgba(232,0,29,0.15); }
+    [data-theme="light"] .theme-toggle .track { background: rgba(232,0,29,0.25); }
+    .theme-toggle .thumb {
+      position: absolute; top: 2px; left: 2px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--red); transition: transform 0.25s;
+    }
+    [data-theme="light"] .theme-toggle .thumb { transform: translateX(16px); }
+    .theme-toggle .icon { font-size: 14px; line-height: 1; }
+    .theme-label {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── Grid ── */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 
-    /* App card */
+    /* ── Card ── */
     .card {
       background: var(--card-bg); border: 1px solid var(--border);
       border-radius: 16px; padding: 28px 24px;
       text-decoration: none; color: inherit;
       display: flex; flex-direction: column; gap: 14px;
-      transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+      transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s, background 0.3s;
       position: relative; overflow: hidden;
       animation: fadeUp 0.45s ease both;
     }
@@ -81,7 +158,7 @@
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
       background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
     }
-    .card:hover { transform: translateY(-4px); border-color: rgba(232,0,29,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(232,0,29,0.06); }
+    .card:hover { transform: translateY(-4px); border-color: rgba(232,0,29,0.3); box-shadow: var(--shadow), 0 0 30px rgba(232,0,29,0.06); }
     .card:hover::before { transform: scaleX(1); }
     .card-icon {
       width: 48px; height: 48px; border-radius: 11px;
@@ -100,7 +177,7 @@
     .tag {
       font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
       padding: 3px 8px; border-radius: 100px;
-      border: 1px solid rgba(255,255,255,0.1); color: var(--muted); background: rgba(255,255,255,0.03);
+      border: 1px solid var(--tag-bd); color: var(--muted); background: var(--tag-bg);
     }
     .card-footer {
       display: flex; align-items: center; justify-content: space-between;
@@ -126,12 +203,12 @@
       border-radius: 7px; color: var(--muted); font-size: 15px; line-height: 1;
       transition: color 0.15s, background 0.15s;
     }
-    .card-actions button:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+    .card-actions button:hover { color: var(--text); background: rgba(128,128,128,0.15); }
     .card-actions button.del:hover { color: var(--red); background: rgba(232,0,29,0.1); }
 
     /* Add card */
     .add-card {
-      background: transparent; border: 2px dashed rgba(255,255,255,0.1);
+      background: transparent; border: 2px dashed var(--add-dash);
       border-radius: 16px; padding: 28px 24px;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 10px; cursor: pointer; min-height: 180px;
@@ -141,19 +218,19 @@
     .add-card:hover { border-color: rgba(232,0,29,0.45); background: rgba(232,0,29,0.04); }
     .plus {
       width: 42px; height: 42px; border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.15);
+      border: 2px solid var(--add-dash);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px; color: rgba(255,255,255,0.2); transition: border-color 0.2s, color 0.2s;
+      font-size: 24px; color: var(--add-plus); transition: border-color 0.2s, color 0.2s;
     }
     .add-card:hover .plus { border-color: var(--red); color: var(--red); }
     .add-label {
       font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
       font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
-      color: rgba(255,255,255,0.22); transition: color 0.2s;
+      color: var(--add-lbl); transition: color 0.2s;
     }
     .add-card:hover .add-label { color: var(--red); }
 
-    /* Admin mode bar */
+    /* Admin bar */
     .admin-bar {
       position: fixed; top: 0; left: 0; right: 0;
       background: var(--red); color: #fff; text-align: center;
@@ -161,31 +238,31 @@
       letter-spacing: 0.14em; text-transform: uppercase; padding: 7px;
       font-weight: 700; z-index: 90;
       transform: translateY(-100%); transition: transform 0.25s;
+      display: flex; align-items: center; justify-content: center; gap: 16px;
     }
     .admin-bar.visible { transform: translateY(0); }
-
-    /* Logo secret trigger — 5 clicks to unlock admin */
-    .logo-ring.tap1 { box-shadow: 0 0 0 4px rgba(232,0,29,0.15); }
-    .logo-ring.tap2 { box-shadow: 0 0 0 4px rgba(232,0,29,0.30); }
-    .logo-ring.tap3 { box-shadow: 0 0 0 4px rgba(232,0,29,0.50); }
-    .logo-ring.tap4 { box-shadow: 0 0 0 4px rgba(232,0,29,0.75); }
-    .logo-ring.admin-active {
-      box-shadow: 0 0 0 4px var(--red), 0 0 18px rgba(232,0,29,0.4);
+    .admin-bar-exit {
+      background: rgba(255,255,255,0.2); border: none; color: #fff;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 20px; cursor: pointer;
+      transition: background 0.15s;
     }
+    .admin-bar-exit:hover { background: rgba(255,255,255,0.35); }
 
-    /* Overlay + Modal */
+    /* ── Overlays ── */
     .overlay {
       position: fixed; inset: 0;
-      background: rgba(0,0,0,0.78); backdrop-filter: blur(7px);
+      background: var(--overlay); backdrop-filter: blur(7px);
       z-index: 200; display: flex; align-items: center; justify-content: center;
       padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s;
     }
     .overlay.open { opacity: 1; pointer-events: all; }
     .modal {
-      background: #1b1b1b; border: 1px solid rgba(255,255,255,0.1);
+      background: var(--modal-bg); border: 1px solid var(--border2);
       border-radius: 20px; padding: 34px 30px;
       width: 100%; max-width: 460px;
-      transform: translateY(16px); transition: transform 0.25s; position: relative;
+      transform: translateY(16px); transition: transform 0.25s, background 0.3s;
     }
     .overlay.open .modal { transform: translateY(0); }
     .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
@@ -195,14 +272,14 @@
       background: none; border: none; cursor: pointer; color: var(--muted);
       font-size: 20px; padding: 5px 8px; border-radius: 7px; transition: color 0.15s, background 0.15s;
     }
-    .modal-close:hover { color: var(--text); background: rgba(255,255,255,0.07); }
+    .modal-close:hover { color: var(--text); background: rgba(128,128,128,0.1); }
 
     .form-row { display: flex; flex-direction: column; gap: 7px; margin-bottom: 17px; }
     .form-row label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
     .form-row input, .form-row textarea {
-      background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+      background: var(--input-bg); border: 1px solid var(--border2); border-radius: 10px;
       color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.92rem;
-      padding: 10px 14px; outline: none; transition: border-color 0.2s; width: 100%;
+      padding: 10px 14px; outline: none; transition: border-color 0.2s, background 0.3s; width: 100%;
     }
     .form-row input:focus, .form-row textarea:focus { border-color: rgba(232,0,29,0.5); }
     .form-row textarea { resize: vertical; min-height: 66px; }
@@ -211,7 +288,7 @@
     .emoji-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
     .emoji-btn {
       width: 38px; height: 38px; border-radius: 9px;
-      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      background: var(--tag-bg); border: 1px solid var(--border2);
       font-size: 19px; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       transition: background 0.15s, border-color 0.15s;
@@ -228,27 +305,55 @@
     .btn-primary:hover { background: #c9001a; }
     .btn-primary:active { transform: scale(0.98); }
     .btn-secondary {
-      background: rgba(255,255,255,0.05); color: var(--muted);
-      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+      background: var(--tag-bg); color: var(--muted);
+      border: 1px solid var(--border2); border-radius: 10px;
       padding: 12px 18px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
       font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;
       cursor: pointer; transition: background 0.15s, color 0.15s;
     }
-    .btn-secondary:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+    .btn-secondary:hover { color: var(--text); }
+
+    /* ── Password modal specifics ── */
+    .pw-icon { text-align: center; font-size: 36px; margin-bottom: 16px; }
+    .pw-hint { font-size: 0.8rem; color: var(--muted); text-align: center; margin-bottom: 20px; line-height: 1.5; }
+    .pw-error {
+      font-size: 0.78rem; color: var(--red); text-align: center;
+      margin-top: -10px; margin-bottom: 10px; min-height: 18px;
+    }
+    .pw-input-wrap { position: relative; }
+    .pw-input-wrap input { padding-right: 44px; letter-spacing: 0.05em; }
+    .pw-eye {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--muted);
+      font-size: 16px; padding: 4px; transition: color 0.15s;
+    }
+    .pw-eye:hover { color: var(--text); }
 
     /* Drag */
     .card.dragging { opacity: 0.35; }
     .card[draggable="true"] { cursor: grab; }
 
-    footer { margin-top: 52px; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.14); letter-spacing: 0.08em; text-transform: uppercase; }
+    footer { margin-top: 52px; text-align: center; font-size: 0.75rem; color: var(--muted); opacity: 0.4; letter-spacing: 0.08em; text-transform: uppercase; }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    .shake { animation: shake 0.35s ease; }
   </style>
 </head>
 <body>
 
-<div class="admin-bar" id="adminBar">⚙ Admin Mode — Add · Edit · Delete · Drag to reorder</div>
+<div class="admin-bar" id="adminBar">
+  <span>⚙ Admin Mode — Add · Edit · Delete · Drag to reorder</span>
+  <button class="admin-bar-exit" onclick="exitAdmin()">Exit</button>
+</div>
+
+<!-- Theme toggle -->
+<button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle dark/light mode">
+  <span class="icon" id="themeIcon">🌙</span>
+  <div class="track"><div class="thumb"></div></div>
+  <span class="theme-label" id="themeLabel">Dark</span>
+</button>
 
 <div class="container">
   <header>
@@ -261,9 +366,27 @@
   <footer>New KCC Field Operations &nbsp;·&nbsp; 2026</footer>
 </div>
 
+<!-- Password overlay -->
+<div class="overlay" id="pwOverlay" onclick="pwBgClick(event)">
+  <div class="modal" style="max-width:380px">
+    <div class="pw-icon">🔐</div>
+    <div class="modal-title" style="text-align:center;margin-bottom:8px">Admin <em style="color:var(--red);font-style:normal">Access</em></div>
+    <p class="pw-hint">Enter the admin password to continue.</p>
+    <div class="form-row" style="margin-bottom:8px">
+      <div class="pw-input-wrap">
+        <input id="pwInput" type="password" placeholder="Password" onkeydown="pwKeydown(event)" autocomplete="off" />
+        <button class="pw-eye" onclick="togglePwVis()" id="pwEye" title="Show/hide">👁️</button>
+      </div>
+    </div>
+    <div class="pw-error" id="pwError"></div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="closePw()">Cancel</button>
+      <button class="btn-primary" onclick="submitPw()">Unlock</button>
+    </div>
+  </div>
+</div>
 
-
-<!-- Modal -->
+<!-- Site add/edit overlay -->
 <div class="overlay" id="overlay" onclick="bgClick(event)">
   <div class="modal">
     <div class="modal-header">
@@ -287,7 +410,7 @@
       <div class="emoji-grid" id="emojiGrid"></div>
     </div>
     <div class="form-row">
-      <label>Tags <small style="color:#555;font-size:0.65rem">(comma-separated)</small></label>
+      <label>Tags <small style="color:#666;font-size:0.65rem">(comma-separated)</small></label>
       <input id="fTags" type="text" placeholder="e.g. Reports, Field, Analytics" />
     </div>
     <div class="btn-row">
@@ -298,28 +421,47 @@
 </div>
 
 <script>
+// ── Constants ──
 const EMOJIS = ['🗺️','📦','📊','🧾','📋','🛒','🚚','📈','💰','👥','🏪','⚙️','📡','🔔','🗂️','✅','🧪','📬','🏆','🔑','📱','🖥️','🔗','📌'];
-const KEY = 'nkcc_hub_v3';
+const SITES_KEY = 'nkcc_hub_v3';
+const THEME_KEY = 'nkcc_theme';
+const ADMIN_PW  = 'Festoo'; // ← password
 
 const DEFAULTS = [
   { id:'s1', name:'Market Visit Form',  url:'https://market-visit-form.vercel.app/',  desc:'Log field visits, capture market intelligence, and submit outlet data from the ground.', icon:'🗺️', tags:['Field','Reports','Outlets'] },
   { id:'s2', name:'Sales Order System', url:'https://sales-orders-rosy.vercel.app/', desc:'Place orders, track salespeople, view dashboards and performance analytics by route.',  icon:'📦', tags:['Orders','Analytics','Routes'] }
 ];
 
-let sites = [];
+let sites     = [];
 let adminMode = false;
-let editId = null;
-let selEmoji = EMOJIS[0];
-let dragSrc = null;
+let editId    = null;
+let selEmoji  = EMOJIS[0];
+let dragSrc   = null;
 
+// ── Theme ──
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem(THEME_KEY, theme);
+  const isDark = theme === 'dark';
+  document.getElementById('themeIcon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = isDark ? 'Dark' : 'Light';
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+}
+// restore saved theme
+applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+// ── Data ──
 function load() {
-  try { const r = localStorage.getItem(KEY); sites = r ? JSON.parse(r) : [...DEFAULTS]; }
+  try { const r = localStorage.getItem(SITES_KEY); sites = r ? JSON.parse(r) : [...DEFAULTS]; }
   catch { sites = [...DEFAULTS]; }
 }
-function persist() { localStorage.setItem(KEY, JSON.stringify(sites)); }
+function persist() { localStorage.setItem(SITES_KEY, JSON.stringify(sites)); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
+// ── Render ──
 function render() {
   const grid = document.getElementById('grid');
   grid.innerHTML = '';
@@ -336,7 +478,6 @@ function render() {
            <button class="del" title="Remove" onclick="delCard('${s.id}')">🗑️</button>
          </div>`
       : `<span class="status-dot"></span>`;
-    const btnLabel = adminMode ? 'Edit' : 'Open App';
 
     el.innerHTML = `
       <div class="card-icon">${s.icon||'🔗'}</div>
@@ -347,26 +488,24 @@ function render() {
       </div>
       <div class="card-footer">
         <span class="open-btn">
-          ${btnLabel}
+          ${adminMode ? 'Edit' : 'Open App'}
           <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </span>
         ${footerRight}
       </div>`;
 
     if (adminMode) {
-      el.draggable = true;
-      el.dataset.id = s.id;
+      el.draggable = true; el.dataset.id = s.id;
       el.querySelector('.open-btn').addEventListener('click', () => openEdit(s.id));
-      el.addEventListener('dragstart', e => { dragSrc = el; e.dataTransfer.effectAllowed='move'; setTimeout(()=>el.classList.add('dragging'),0); });
-      el.addEventListener('dragend', () => { el.classList.remove('dragging'); dragSrc=null; });
-      el.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect='move'; });
+      el.addEventListener('dragstart', e => { dragSrc=el; e.dataTransfer.effectAllowed='move'; setTimeout(()=>el.classList.add('dragging'),0); });
+      el.addEventListener('dragend',   () => { el.classList.remove('dragging'); dragSrc=null; });
+      el.addEventListener('dragover',  e => { e.preventDefault(); e.dataTransfer.dropEffect='move'; });
       el.addEventListener('drop', e => {
         e.preventDefault();
-        if (!dragSrc || dragSrc===el) return;
-        const fi = sites.findIndex(x=>x.id===dragSrc.dataset.id);
-        const ti = sites.findIndex(x=>x.id===el.dataset.id);
+        if (!dragSrc||dragSrc===el) return;
+        const fi=sites.findIndex(x=>x.id===dragSrc.dataset.id), ti=sites.findIndex(x=>x.id===el.dataset.id);
         if (fi<0||ti<0) return;
-        const [m] = sites.splice(fi,1); sites.splice(ti,0,m);
+        const [m]=sites.splice(fi,1); sites.splice(ti,0,m);
         persist(); render();
       });
     }
@@ -383,106 +522,124 @@ function render() {
   }
 }
 
-// ── Secret logo tap: 5 clicks within 3s to toggle admin ──
-let tapCount = 0;
-let tapTimer = null;
-const TAP_TARGET = 5;
-
+// ── Secret logo tap → password gate ──
+let tapCount = 0, tapTimer = null;
 document.getElementById('logoRing').addEventListener('click', () => {
+  if (adminMode) return; // already in — ignore
   tapCount++;
   clearTimeout(tapTimer);
-
   const logo = document.getElementById('logoRing');
   logo.classList.remove('tap1','tap2','tap3','tap4');
-  if (tapCount < TAP_TARGET) {
-    logo.classList.add('tap' + tapCount);
-  }
-
-  tapTimer = setTimeout(() => {
-    tapCount = 0;
+  if (tapCount < 5) logo.classList.add('tap'+tapCount);
+  tapTimer = setTimeout(() => { tapCount=0; logo.classList.remove('tap1','tap2','tap3','tap4'); }, 3000);
+  if (tapCount >= 5) {
+    tapCount=0; clearTimeout(tapTimer);
     logo.classList.remove('tap1','tap2','tap3','tap4');
-  }, 3000);
-
-  if (tapCount >= TAP_TARGET) {
-    tapCount = 0;
-    clearTimeout(tapTimer);
-    logo.classList.remove('tap1','tap2','tap3','tap4');
-    toggleAdmin();
+    openPw();
   }
 });
 
-function toggleAdmin() {
-  adminMode = !adminMode;
-  const logo = document.getElementById('logoRing');
-  logo.classList.toggle('admin-active', adminMode);
-  document.getElementById('adminBar').classList.toggle('visible', adminMode);
-  document.body.style.paddingTop = adminMode ? '38px' : '';
+// ── Password modal ──
+function openPw() {
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwError').textContent = '';
+  document.getElementById('pwInput').type = 'password';
+  document.getElementById('pwEye').textContent = '👁️';
+  document.getElementById('pwOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('pwInput').focus(), 80);
+}
+function closePw() {
+  document.getElementById('pwOverlay').classList.remove('open');
+}
+function pwBgClick(e) { if(e.target===document.getElementById('pwOverlay')) closePw(); }
+function pwKeydown(e) { if(e.key==='Enter') submitPw(); if(e.key==='Escape') closePw(); }
+function togglePwVis() {
+  const inp = document.getElementById('pwInput');
+  const eye = document.getElementById('pwEye');
+  if (inp.type==='password') { inp.type='text'; eye.textContent='🙈'; }
+  else { inp.type='password'; eye.textContent='👁️'; }
+}
+function submitPw() {
+  const val = document.getElementById('pwInput').value;
+  if (val === ADMIN_PW) {
+    closePw();
+    enterAdmin();
+  } else {
+    const err = document.getElementById('pwError');
+    err.textContent = 'Incorrect password. Try again.';
+    const modal = document.querySelector('#pwOverlay .modal');
+    modal.classList.remove('shake');
+    void modal.offsetWidth; // reflow
+    modal.classList.add('shake');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+    setTimeout(()=>{ err.textContent=''; }, 3000);
+  }
+}
+
+// ── Admin on/off ──
+function enterAdmin() {
+  adminMode = true;
+  document.getElementById('logoRing').classList.add('admin-active');
+  document.getElementById('adminBar').classList.add('visible');
+  document.body.style.paddingTop = '38px';
+  render();
+}
+function exitAdmin() {
+  adminMode = false;
+  document.getElementById('logoRing').classList.remove('admin-active');
+  document.getElementById('adminBar').classList.remove('visible');
+  document.body.style.paddingTop = '';
   render();
 }
 
-/* Modal helpers */
+// ── Site modal ──
 function buildEmojiGrid(sel) {
-  const g = document.getElementById('emojiGrid');
-  g.innerHTML = '';
+  const g = document.getElementById('emojiGrid'); g.innerHTML='';
   EMOJIS.forEach(e => {
     const b = document.createElement('button');
-    b.className = 'emoji-btn' + (e===sel?' sel':'');
-    b.type = 'button'; b.textContent = e;
-    b.onclick = () => { selEmoji=e; g.querySelectorAll('.emoji-btn').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); };
+    b.className='emoji-btn'+(e===sel?' sel':''); b.type='button'; b.textContent=e;
+    b.onclick=()=>{ selEmoji=e; g.querySelectorAll('.emoji-btn').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); };
     g.appendChild(b);
   });
 }
-
 function openAdd() {
-  editId = null; selEmoji = EMOJIS[0];
-  document.getElementById('modalTitle').innerHTML = 'Add <em>Site</em>';
-  document.getElementById('fName').value = '';
-  document.getElementById('fUrl').value = '';
-  document.getElementById('fDesc').value = '';
-  document.getElementById('fTags').value = '';
+  editId=null; selEmoji=EMOJIS[0];
+  document.getElementById('modalTitle').innerHTML='Add <em>Site</em>';
+  ['fName','fUrl','fDesc','fTags'].forEach(id=>document.getElementById(id).value='');
   buildEmojiGrid(selEmoji);
   document.getElementById('overlay').classList.add('open');
 }
-
 function openEdit(id) {
-  const s = sites.find(x=>x.id===id); if(!s) return;
-  editId = id; selEmoji = s.icon||EMOJIS[0];
-  document.getElementById('modalTitle').innerHTML = 'Edit <em>Site</em>';
-  document.getElementById('fName').value = s.name;
-  document.getElementById('fUrl').value  = s.url;
-  document.getElementById('fDesc').value = s.desc;
-  document.getElementById('fTags').value = (s.tags||[]).join(', ');
+  const s=sites.find(x=>x.id===id); if(!s) return;
+  editId=id; selEmoji=s.icon||EMOJIS[0];
+  document.getElementById('modalTitle').innerHTML='Edit <em>Site</em>';
+  document.getElementById('fName').value=s.name;
+  document.getElementById('fUrl').value=s.url;
+  document.getElementById('fDesc').value=s.desc;
+  document.getElementById('fTags').value=(s.tags||[]).join(', ');
   buildEmojiGrid(selEmoji);
   document.getElementById('overlay').classList.add('open');
 }
-
 function closeModal() { document.getElementById('overlay').classList.remove('open'); }
 function bgClick(e) { if(e.target===document.getElementById('overlay')) closeModal(); }
 
 function saveCard() {
-  const name = document.getElementById('fName').value.trim();
-  const url  = document.getElementById('fUrl').value.trim();
-  const desc = document.getElementById('fDesc').value.trim();
-  const tags = document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean);
-
-  let ok = true;
-  document.getElementById('fName').classList.toggle('error-input', !name); if(!name) ok=false;
-  document.getElementById('fUrl').classList.toggle('error-input',  !url);  if(!url)  ok=false;
-  if (!ok) return;
-
-  if (editId) {
-    const s = sites.find(x=>x.id===editId);
-    if(s) Object.assign(s, {name, url, desc, icon:selEmoji, tags});
-  } else {
-    sites.push({id:'s'+Date.now(), name, url, desc, icon:selEmoji, tags});
-  }
+  const name=document.getElementById('fName').value.trim();
+  const url=document.getElementById('fUrl').value.trim();
+  const desc=document.getElementById('fDesc').value.trim();
+  const tags=document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  let ok=true;
+  document.getElementById('fName').classList.toggle('error-input',!name); if(!name) ok=false;
+  document.getElementById('fUrl').classList.toggle('error-input',!url);   if(!url)  ok=false;
+  if(!ok) return;
+  if(editId) { const s=sites.find(x=>x.id===editId); if(s) Object.assign(s,{name,url,desc,icon:selEmoji,tags}); }
+  else sites.push({id:'s'+Date.now(),name,url,desc,icon:selEmoji,tags});
   persist(); closeModal(); render();
 }
-
 function delCard(id) {
-  if (!confirm('Remove this site from the hub?')) return;
-  sites = sites.filter(x=>x.id!==id);
-  persist(); render();
+  if(!confirm('Remove this site from the hub?')) return;
+  sites=sites.filter(x=>x.id!==id); persist(); render();
 }
 
 load(); render();
