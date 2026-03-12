@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --red: #e8001d;
       --dark: #0d0d0d;
@@ -16,7 +15,6 @@
       --text: #f0f0f0;
       --muted: #888;
     }
-
     body {
       background: var(--dark);
       color: var(--text);
@@ -25,315 +23,469 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 40px 20px;
+      padding: 40px 20px 80px;
       overflow-x: hidden;
     }
-
-    /* Background texture */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
-      background: 
+      position: fixed; inset: 0;
+      background:
         radial-gradient(ellipse 80% 60% at 50% -10%, rgba(232,0,29,0.12) 0%, transparent 70%),
-        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
     }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 780px;
-    }
+    .container { position: relative; z-index: 1; width: 100%; max-width: 860px; }
 
     /* Header */
-    header {
-      text-align: center;
-      margin-bottom: 56px;
-    }
-
+    header { text-align: center; margin-bottom: 48px; animation: fadeUp 0.5s ease both; }
     .logo-ring {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      border: 2px solid var(--red);
-      margin-bottom: 20px;
-      position: relative;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 72px; height: 72px; border-radius: 50%;
+      border: 2px solid var(--red); margin-bottom: 20px; position: relative;
+      cursor: pointer;
+      transition: box-shadow 0.2s;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
     .logo-ring::before {
-      content: '';
-      position: absolute;
-      inset: 6px;
-      border-radius: 50%;
-      background: rgba(232,0,29,0.15);
+      content: ''; position: absolute; inset: 6px;
+      border-radius: 50%; background: rgba(232,0,29,0.15);
     }
     .logo-ring span {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: 22px;
-      color: var(--red);
-      letter-spacing: 1px;
-      position: relative;
-      z-index: 1;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: 22px; color: var(--red); letter-spacing: 1px; position: relative; z-index: 1;
     }
-
     h1 {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 800;
-      font-size: clamp(2.4rem, 6vw, 3.8rem);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      line-height: 1;
-      margin-bottom: 10px;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 800;
+      font-size: clamp(2.4rem, 6vw, 3.8rem); letter-spacing: 0.04em;
+      text-transform: uppercase; line-height: 1; margin-bottom: 10px;
     }
-    h1 em {
-      color: var(--red);
-      font-style: normal;
-    }
+    h1 em { color: var(--red); font-style: normal; }
+    .subtitle { font-size: 0.9rem; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+    .divider { width: 60px; height: 2px; background: var(--red); margin: 18px auto; border-radius: 2px; }
 
-    .subtitle {
-      font-size: 0.9rem;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
+    /* Grid */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 
-    /* Divider */
-    .divider {
-      width: 60px;
-      height: 2px;
-      background: var(--red);
-      margin: 18px auto;
-      border-radius: 2px;
-    }
-
-    /* Cards grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-    }
-
+    /* App card */
     .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px 28px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px 24px;
+      text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 14px;
+      transition: transform 0.22s, border-color 0.22s, box-shadow 0.22s;
+      position: relative; overflow: hidden;
+      animation: fadeUp 0.45s ease both;
     }
-
     .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--red);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
     }
-
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(232,0,29,0.3);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(232,0,29,0.06);
-    }
-
-    .card:hover::before {
-      transform: scaleX(1);
-    }
-
+    .card:hover { transform: translateY(-4px); border-color: rgba(232,0,29,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(232,0,29,0.06); }
+    .card:hover::before { transform: scaleX(1); }
     .card-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 12px;
-      background: rgba(232,0,29,0.1);
-      border: 1px solid rgba(232,0,29,0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      transition: background 0.2s ease;
+      width: 48px; height: 48px; border-radius: 11px;
+      background: rgba(232,0,29,0.1); border: 1px solid rgba(232,0,29,0.2);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+      transition: background 0.2s;
     }
-
-    .card:hover .card-icon {
-      background: rgba(232,0,29,0.18);
-    }
-
+    .card:hover .card-icon { background: rgba(232,0,29,0.18); }
     .card-body { flex: 1; }
-
     .card-title {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700;
-      font-size: 1.35rem;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 1.2rem; letter-spacing: 0.03em; text-transform: uppercase; margin-bottom: 5px;
     }
-
-    .card-desc {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.55;
-    }
-
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 12px;
-    }
-
+    .card-desc { font-size: 0.845rem; color: var(--muted); line-height: 1.55; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
     .tag {
-      font-size: 0.7rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 3px 9px;
-      border-radius: 100px;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--muted);
-      background: rgba(255,255,255,0.03);
+      font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.1); color: var(--muted); background: rgba(255,255,255,0.03);
     }
-
     .card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 12px; border-top: 1px solid var(--border);
     }
-
     .open-btn {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 600;
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--red);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: gap 0.2s ease;
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+      font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--red); display: flex; align-items: center; gap: 6px; transition: gap 0.2s;
     }
-
-    .card:hover .open-btn {
-      gap: 10px;
-    }
-
-    .open-btn svg {
-      width: 14px; height: 14px;
-      stroke: var(--red);
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
+    .card:hover .open-btn { gap: 10px; }
+    .open-btn svg { width: 13px; height: 13px; stroke: var(--red); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
     .status-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #22c55e;
-      box-shadow: 0 0 6px rgba(34,197,94,0.6);
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.6);
       animation: pulse 2.2s infinite;
     }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+    /* Admin card actions */
+    .card-actions { display: flex; gap: 6px; }
+    .card-actions button {
+      background: none; border: none; cursor: pointer; padding: 5px 7px;
+      border-radius: 7px; color: var(--muted); font-size: 15px; line-height: 1;
+      transition: color 0.15s, background 0.15s;
+    }
+    .card-actions button:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+    .card-actions button.del:hover { color: var(--red); background: rgba(232,0,29,0.1); }
+
+    /* Add card */
+    .add-card {
+      background: transparent; border: 2px dashed rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 28px 24px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 10px; cursor: pointer; min-height: 180px;
+      transition: border-color 0.2s, background 0.2s;
+      animation: fadeUp 0.45s ease both;
+    }
+    .add-card:hover { border-color: rgba(232,0,29,0.45); background: rgba(232,0,29,0.04); }
+    .plus {
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; color: rgba(255,255,255,0.2); transition: border-color 0.2s, color 0.2s;
+    }
+    .add-card:hover .plus { border-color: var(--red); color: var(--red); }
+    .add-label {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+      font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.22); transition: color 0.2s;
+    }
+    .add-card:hover .add-label { color: var(--red); }
+
+    /* Admin mode bar */
+    .admin-bar {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: var(--red); color: #fff; text-align: center;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.75rem;
+      letter-spacing: 0.14em; text-transform: uppercase; padding: 7px;
+      font-weight: 700; z-index: 90;
+      transform: translateY(-100%); transition: transform 0.25s;
+    }
+    .admin-bar.visible { transform: translateY(0); }
+
+    /* Logo secret trigger — 5 clicks to unlock admin */
+    .logo-ring.tap1 { box-shadow: 0 0 0 4px rgba(232,0,29,0.15); }
+    .logo-ring.tap2 { box-shadow: 0 0 0 4px rgba(232,0,29,0.30); }
+    .logo-ring.tap3 { box-shadow: 0 0 0 4px rgba(232,0,29,0.50); }
+    .logo-ring.tap4 { box-shadow: 0 0 0 4px rgba(232,0,29,0.75); }
+    .logo-ring.admin-active {
+      box-shadow: 0 0 0 4px var(--red), 0 0 18px rgba(232,0,29,0.4);
     }
 
-    /* Footer */
-    footer {
-      margin-top: 52px;
-      text-align: center;
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.15);
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    /* Overlay + Modal */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.78); backdrop-filter: blur(7px);
+      z-index: 200; display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s;
     }
-
-    /* Entrance animation */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(22px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #1b1b1b; border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px; padding: 34px 30px;
+      width: 100%; max-width: 460px;
+      transform: translateY(16px); transition: transform 0.25s; position: relative;
     }
+    .overlay.open .modal { transform: translateY(0); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
+    .modal-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.4rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .modal-title em { color: var(--red); font-style: normal; }
+    .modal-close {
+      background: none; border: none; cursor: pointer; color: var(--muted);
+      font-size: 20px; padding: 5px 8px; border-radius: 7px; transition: color 0.15s, background 0.15s;
+    }
+    .modal-close:hover { color: var(--text); background: rgba(255,255,255,0.07); }
 
-    header  { animation: fadeUp 0.5s ease both; }
-    .card:nth-child(1) { animation: fadeUp 0.5s 0.15s ease both; }
-    .card:nth-child(2) { animation: fadeUp 0.5s 0.28s ease both; }
+    .form-row { display: flex; flex-direction: column; gap: 7px; margin-bottom: 17px; }
+    .form-row label { font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+    .form-row input, .form-row textarea {
+      background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+      color: var(--text); font-family: 'Barlow', sans-serif; font-size: 0.92rem;
+      padding: 10px 14px; outline: none; transition: border-color 0.2s; width: 100%;
+    }
+    .form-row input:focus, .form-row textarea:focus { border-color: rgba(232,0,29,0.5); }
+    .form-row textarea { resize: vertical; min-height: 66px; }
+    .error-input { border-color: var(--red) !important; }
+
+    .emoji-grid { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+    .emoji-btn {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      font-size: 19px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .emoji-btn:hover, .emoji-btn.sel { background: rgba(232,0,29,0.15); border-color: var(--red); }
+
+    .btn-row { display: flex; gap: 10px; margin-top: 8px; }
+    .btn-primary {
+      flex: 1; background: var(--red); color: #fff; border: none; border-radius: 10px;
+      padding: 12px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
+      font-size: 0.95rem; letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.15s, transform 0.1s;
+    }
+    .btn-primary:hover { background: #c9001a; }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05); color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+      padding: 12px 18px; font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+      font-size: 0.9rem; letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.15s, color 0.15s;
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+    /* Drag */
+    .card.dragging { opacity: 0.35; }
+    .card[draggable="true"] { cursor: grab; }
+
+    footer { margin-top: 52px; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.14); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
   </style>
 </head>
 <body>
-  <div class="container">
 
-    <header>
-      <div class="logo-ring"><span>NKCC</span></div>
-      <h1>New KCC <em>Hub</em></h1>
-      <div class="divider"></div>
-      <p class="subtitle">Field Operations &amp; Sales Platform</p>
-    </header>
+<div class="admin-bar" id="adminBar">⚙ Admin Mode — Add · Edit · Delete · Drag to reorder</div>
 
-    <div class="grid">
+<div class="container">
+  <header>
+    <div class="logo-ring" id="logoRing"><span>NKCC</span></div>
+    <h1>New KCC <em>Hub</em></h1>
+    <div class="divider"></div>
+    <p class="subtitle">Field Operations &amp; Sales Platform</p>
+  </header>
+  <div class="grid" id="grid"></div>
+  <footer>New KCC Field Operations &nbsp;·&nbsp; 2026</footer>
+</div>
 
-      <!-- Market Visit -->
-      <a class="card" href="https://market-visit-form.vercel.app/" target="_blank" rel="noopener">
-        <div class="card-icon">🗺️</div>
-        <div class="card-body">
-          <div class="card-title">Market Visit Form</div>
-          <p class="card-desc">Log field visits, capture market intelligence, and submit outlet data from the ground.</p>
-          <div class="card-tags">
-            <span class="tag">Field</span>
-            <span class="tag">Reports</span>
-            <span class="tag">Outlets</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="open-btn">
-            Open App
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </span>
-          <span class="status-dot" title="Live"></span>
-        </div>
-      </a>
 
-      <!-- Sales Orders -->
-      <a class="card" href="https://sales-orders-rosy.vercel.app/" target="_blank" rel="noopener">
-        <div class="card-icon">📦</div>
-        <div class="card-body">
-          <div class="card-title">Sales Order System</div>
-          <p class="card-desc">Place orders, track salespeople, view dashboards and performance analytics by route.</p>
-          <div class="card-tags">
-            <span class="tag">Orders</span>
-            <span class="tag">Analytics</span>
-            <span class="tag">Routes</span>
-          </div>
-        </div>
-        <div class="card-footer">
-          <span class="open-btn">
-            Open App
-            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </span>
-          <span class="status-dot" title="Live"></span>
-        </div>
-      </a>
 
+<!-- Modal -->
+<div class="overlay" id="overlay" onclick="bgClick(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">Add <em>Site</em></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
-
-    <footer>New KCC Field Operations &nbsp;·&nbsp; 2026</footer>
+    <div class="form-row">
+      <label>Site Name *</label>
+      <input id="fName" type="text" placeholder="e.g. Inventory Tracker" />
+    </div>
+    <div class="form-row">
+      <label>URL *</label>
+      <input id="fUrl" type="url" placeholder="https://your-app.vercel.app" />
+    </div>
+    <div class="form-row">
+      <label>Description</label>
+      <textarea id="fDesc" placeholder="What does this tool do?"></textarea>
+    </div>
+    <div class="form-row">
+      <label>Icon</label>
+      <div class="emoji-grid" id="emojiGrid"></div>
+    </div>
+    <div class="form-row">
+      <label>Tags <small style="color:#555;font-size:0.65rem">(comma-separated)</small></label>
+      <input id="fTags" type="text" placeholder="e.g. Reports, Field, Analytics" />
+    </div>
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="saveCard()">Save Site</button>
+    </div>
   </div>
+</div>
+
+<script>
+const EMOJIS = ['🗺️','📦','📊','🧾','📋','🛒','🚚','📈','💰','👥','🏪','⚙️','📡','🔔','🗂️','✅','🧪','📬','🏆','🔑','📱','🖥️','🔗','📌'];
+const KEY = 'nkcc_hub_v3';
+
+const DEFAULTS = [
+  { id:'s1', name:'Market Visit Form',  url:'https://market-visit-form.vercel.app/',  desc:'Log field visits, capture market intelligence, and submit outlet data from the ground.', icon:'🗺️', tags:['Field','Reports','Outlets'] },
+  { id:'s2', name:'Sales Order System', url:'https://sales-orders-rosy.vercel.app/', desc:'Place orders, track salespeople, view dashboards and performance analytics by route.',  icon:'📦', tags:['Orders','Analytics','Routes'] }
+];
+
+let sites = [];
+let adminMode = false;
+let editId = null;
+let selEmoji = EMOJIS[0];
+let dragSrc = null;
+
+function load() {
+  try { const r = localStorage.getItem(KEY); sites = r ? JSON.parse(r) : [...DEFAULTS]; }
+  catch { sites = [...DEFAULTS]; }
+}
+function persist() { localStorage.setItem(KEY, JSON.stringify(sites)); }
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function render() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  sites.forEach((s,i) => {
+    const el = document.createElement(adminMode ? 'div' : 'a');
+    el.className = 'card';
+    el.style.animationDelay = (i*0.06)+'s';
+    if (!adminMode) { el.href = s.url; el.target = '_blank'; el.rel = 'noopener'; }
+
+    const tagsHtml = (s.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join('');
+    const footerRight = adminMode
+      ? `<div class="card-actions">
+           <button title="Edit" onclick="openEdit('${s.id}')">✏️</button>
+           <button class="del" title="Remove" onclick="delCard('${s.id}')">🗑️</button>
+         </div>`
+      : `<span class="status-dot"></span>`;
+    const btnLabel = adminMode ? 'Edit' : 'Open App';
+
+    el.innerHTML = `
+      <div class="card-icon">${s.icon||'🔗'}</div>
+      <div class="card-body">
+        <div class="card-title">${esc(s.name)}</div>
+        <p class="card-desc">${esc(s.desc)}</p>
+        <div class="card-tags">${tagsHtml}</div>
+      </div>
+      <div class="card-footer">
+        <span class="open-btn">
+          ${btnLabel}
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </span>
+        ${footerRight}
+      </div>`;
+
+    if (adminMode) {
+      el.draggable = true;
+      el.dataset.id = s.id;
+      el.querySelector('.open-btn').addEventListener('click', () => openEdit(s.id));
+      el.addEventListener('dragstart', e => { dragSrc = el; e.dataTransfer.effectAllowed='move'; setTimeout(()=>el.classList.add('dragging'),0); });
+      el.addEventListener('dragend', () => { el.classList.remove('dragging'); dragSrc=null; });
+      el.addEventListener('dragover', e => { e.preventDefault(); e.dataTransfer.dropEffect='move'; });
+      el.addEventListener('drop', e => {
+        e.preventDefault();
+        if (!dragSrc || dragSrc===el) return;
+        const fi = sites.findIndex(x=>x.id===dragSrc.dataset.id);
+        const ti = sites.findIndex(x=>x.id===el.dataset.id);
+        if (fi<0||ti<0) return;
+        const [m] = sites.splice(fi,1); sites.splice(ti,0,m);
+        persist(); render();
+      });
+    }
+    grid.appendChild(el);
+  });
+
+  if (adminMode) {
+    const add = document.createElement('div');
+    add.className = 'add-card';
+    add.style.animationDelay = (sites.length*0.06)+'s';
+    add.innerHTML = `<div class="plus">+</div><span class="add-label">Add New Site</span>`;
+    add.onclick = openAdd;
+    grid.appendChild(add);
+  }
+}
+
+// ── Secret logo tap: 5 clicks within 3s to toggle admin ──
+let tapCount = 0;
+let tapTimer = null;
+const TAP_TARGET = 5;
+
+document.getElementById('logoRing').addEventListener('click', () => {
+  tapCount++;
+  clearTimeout(tapTimer);
+
+  const logo = document.getElementById('logoRing');
+  logo.classList.remove('tap1','tap2','tap3','tap4');
+  if (tapCount < TAP_TARGET) {
+    logo.classList.add('tap' + tapCount);
+  }
+
+  tapTimer = setTimeout(() => {
+    tapCount = 0;
+    logo.classList.remove('tap1','tap2','tap3','tap4');
+  }, 3000);
+
+  if (tapCount >= TAP_TARGET) {
+    tapCount = 0;
+    clearTimeout(tapTimer);
+    logo.classList.remove('tap1','tap2','tap3','tap4');
+    toggleAdmin();
+  }
+});
+
+function toggleAdmin() {
+  adminMode = !adminMode;
+  const logo = document.getElementById('logoRing');
+  logo.classList.toggle('admin-active', adminMode);
+  document.getElementById('adminBar').classList.toggle('visible', adminMode);
+  document.body.style.paddingTop = adminMode ? '38px' : '';
+  render();
+}
+
+/* Modal helpers */
+function buildEmojiGrid(sel) {
+  const g = document.getElementById('emojiGrid');
+  g.innerHTML = '';
+  EMOJIS.forEach(e => {
+    const b = document.createElement('button');
+    b.className = 'emoji-btn' + (e===sel?' sel':'');
+    b.type = 'button'; b.textContent = e;
+    b.onclick = () => { selEmoji=e; g.querySelectorAll('.emoji-btn').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); };
+    g.appendChild(b);
+  });
+}
+
+function openAdd() {
+  editId = null; selEmoji = EMOJIS[0];
+  document.getElementById('modalTitle').innerHTML = 'Add <em>Site</em>';
+  document.getElementById('fName').value = '';
+  document.getElementById('fUrl').value = '';
+  document.getElementById('fDesc').value = '';
+  document.getElementById('fTags').value = '';
+  buildEmojiGrid(selEmoji);
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openEdit(id) {
+  const s = sites.find(x=>x.id===id); if(!s) return;
+  editId = id; selEmoji = s.icon||EMOJIS[0];
+  document.getElementById('modalTitle').innerHTML = 'Edit <em>Site</em>';
+  document.getElementById('fName').value = s.name;
+  document.getElementById('fUrl').value  = s.url;
+  document.getElementById('fDesc').value = s.desc;
+  document.getElementById('fTags').value = (s.tags||[]).join(', ');
+  buildEmojiGrid(selEmoji);
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeModal() { document.getElementById('overlay').classList.remove('open'); }
+function bgClick(e) { if(e.target===document.getElementById('overlay')) closeModal(); }
+
+function saveCard() {
+  const name = document.getElementById('fName').value.trim();
+  const url  = document.getElementById('fUrl').value.trim();
+  const desc = document.getElementById('fDesc').value.trim();
+  const tags = document.getElementById('fTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+
+  let ok = true;
+  document.getElementById('fName').classList.toggle('error-input', !name); if(!name) ok=false;
+  document.getElementById('fUrl').classList.toggle('error-input',  !url);  if(!url)  ok=false;
+  if (!ok) return;
+
+  if (editId) {
+    const s = sites.find(x=>x.id===editId);
+    if(s) Object.assign(s, {name, url, desc, icon:selEmoji, tags});
+  } else {
+    sites.push({id:'s'+Date.now(), name, url, desc, icon:selEmoji, tags});
+  }
+  persist(); closeModal(); render();
+}
+
+function delCard(id) {
+  if (!confirm('Remove this site from the hub?')) return;
+  sites = sites.filter(x=>x.id!==id);
+  persist(); render();
+}
+
+load(); render();
+</script>
 </body>
 </html>
